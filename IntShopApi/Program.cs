@@ -1,0 +1,33 @@
+global using IntShopApi.Models;
+global using IntShopApi.Controllers;
+global using Microsoft.EntityFrameworkCore;
+global using IntShopApi.Data;
+using IntShopApi.Services.ProductServices;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddDbContext<DataContext>();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
